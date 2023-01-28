@@ -1,3 +1,3 @@
 # Pordo
 
-Pordo is the official desktop application for seruro. It is written with GTK and Python.
+Pordo is the official TUI application for seruro. It is written with Golang and Bubbletea.
