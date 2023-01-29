@@ -3,8 +3,8 @@ import os
 def clearTerminal():
     os.system('cls' if os.name == 'nt' else 'clear')
 
-def getChoice(isConnected):
-    isInvalid = False
+def getChoice(isConnected, isInvalid):
+    clearTerminal()
     while True:
         print("Pordo")
         print("-" * 10)
@@ -33,28 +33,36 @@ def getChoice(isConnected):
 def connectToPico():
     clearTerminal()
     print("Connecting To Pico...")
+    input("Press Enter To Return Main Menu...")
 
 def disconnectFromPico():
     clearTerminal()
     print("Disconnecting From Pico...")
+    input("Press Enter To Return Main Menu...")
 
 def showWalletBalances():
     clearTerminal()
     print("Showing Wallet Balances...")
+    input("Press Enter To Return Main Menu...")
 
 def main():
     clearTerminal() 
     isConnected = False
-    choice = getChoice(isConnected)
-    if (choice == 1):
-        connectToPico()
-    elif (choice == 2):
-        disconnectFromPico()
-    elif (choice == 3):
-        showWalletBalances()
-    elif (choice == 0):
-        print("Exiting...")
-        exit()
+    isInvalid = False
+    while True:
+        choice = getChoice(isConnected, isInvalid)
+        if (choice == 1):
+            connectToPico()
+        elif (choice == 2):
+            disconnectFromPico()
+        elif (choice == 3):
+            showWalletBalances()
+        elif (choice == 0):
+            print("Exiting...")
+            exit()
+        else:
+            isInvalid = True
+            continue
 
 if __name__ == '__main__':
     main()
