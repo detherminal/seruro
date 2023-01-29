@@ -1,5 +1,3 @@
 #!/bin/bash
 
-cd src
-python3 main.py
-cd ..
+python3 src/main.py

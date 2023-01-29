@@ -43,8 +43,9 @@ def showWalletBalances():
     print("Showing Wallet Balances...")
 
 def main():
+    clearTerminal() 
     isConnected = False
-    choice = getChoice(False)
+    choice = getChoice(isConnected)
     if (choice == 1):
         connectToPico()
     elif (choice == 2):
@@ -54,10 +55,6 @@ def main():
     elif (choice == 0):
         print("Exiting...")
         exit()
-
-        
-
-
 
 if __name__ == '__main__':
     main()
