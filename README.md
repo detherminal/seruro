@@ -8,7 +8,11 @@ Seruro is a software that is designed to turn [Raspberry Pi Pico](https://www.ra
 
 *Only Ethereum is supported for now.*
 
-## Docs
+## Usage
+
+You can use the [Pordo](pordo/README.md) application for interacting with the hardware wallet.
+
+## Installation And Docs
 
 - [Getting Started](docs/getting-started.md)
 
