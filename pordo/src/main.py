@@ -1,22 +1,35 @@
-import os
+import terminal
+import connect
 
-def clearTerminal():
-    os.system('cls' if os.name == 'nt' else 'clear')
+def getTotalBalance(isConnected):
+    if (isConnected == False):
+        return "Disconnected"
+    else:
+        x 
 
 def getChoice(isConnected, isInvalid):
-    clearTerminal()
+    terminal.clear()
     while True:
-        print("Pordo")
-        print("-" * 10)
+        pordo = """
+     ____               _       
+    |  _ \ ___  _ __ __| | ___  
+    | |_) / _ \| '__/ _` |/ _ \ 
+    |  __/ (_) | | | (_| | (_) |
+    |_|   \___/|_|  \__,_|\___/             
+        """
+        print(pordo)
+        print("-" * 50)
+        print("Main Menu")
         if (isConnected):
             print("Connection Status: Connected")
         else:
             print("Connection Status: Disconnected")
-        print("-" * 10)
+        print("Total Balance In USD: " + str(getTotalBalance(isConnected)))
+        print("-" * 50)
         print("Choose An Option (Enter The Number Of Option):")
         print("1 - Connect To Pico")
-        print("2 - Disconnect From Pico")
-        print("3 - Show Wallet Balances")
+        print("2 - Show All Wallets And Balances")
+        print("3 - Refresh Balance")
         print("0 - Exit")
         if (isInvalid):
             print("Invalid Option")
@@ -25,38 +38,30 @@ def getChoice(isConnected, isInvalid):
             option = int(option)
             break
         except:
-            clearTerminal()
+            terminal.clear()
             isInvalid = True
             continue
     return option
 
-def connectToPico():
-    clearTerminal()
-    print("Connecting To Pico...")
-    input("Press Enter To Return Main Menu...")
-
-def disconnectFromPico():
-    clearTerminal()
-    print("Disconnecting From Pico...")
-    input("Press Enter To Return Main Menu...")
-
-def showWalletBalances():
-    clearTerminal()
-    print("Showing Wallet Balances...")
+def showAllWalletsAndBalances():
+    print("Showing All Wallets And Balances...")
     input("Press Enter To Return Main Menu...")
 
 def main():
-    clearTerminal() 
+    terminal.clear() 
     isConnected = False
     isInvalid = False
     while True:
         choice = getChoice(isConnected, isInvalid)
         if (choice == 1):
-            connectToPico()
+            isInvalid == False
+            connect.connectToPico()
         elif (choice == 2):
-            disconnectFromPico()
+            isInvalid == False
+            showAllWalletsAndBalances()
         elif (choice == 3):
-            showWalletBalances()
+            isInvalid == False
+            continue
         elif (choice == 0):
             print("Exiting...")
             exit()
