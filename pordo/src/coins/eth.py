@@ -1,7 +1,56 @@
 import terminal
+from web3 import Web3
+
+def create_wallet():
+    terminal.clear()
+    nodeURL = "https://cloudflare-eth.com/"
+    web3 = Web3(Web3.HTTPProvider(nodeURL))
+    print("Create Wallet")
+    print("-" * 50)
+    print("Creating Wallet...")
+    private_key = web3.eth.account.create()._private_key.hex()
+    print("Wallet Created")
+    print("CAUTION: Do not lose your private key or you will lose access to your wallet!")
+    print("Private Key: " + str(private_key))
+    print("Public Address: " + web3.eth.account.from_key(private_key).address)
+    input("Press Enter to continue...")
+    print("-" * 50)
+    print("Please Enter Password To Encrypt Private Key: ")
+    print("CAUTION: This password will be used to encrypt your private key and will be asked everytime you need to make a transaction, do not lose your password or you will lose access to your wallet!")
+    password = input("> ")
+    print("Encrypting Private Key...")
+    
+
+
+def import_wallet():
+    terminal.clear()
+    print("Import Wallet")
+    print("-" * 50)
+    print("Importing Wallet...")
+
 
 def setup():
-    terminal.clear()
-    print("Ethereum Setup")
-    print("-" * 50)
-    print("Started Ethereum Setup")
+    isInvalid = False
+    terminal.clear() 
+    while True:
+        print("Ethereum Setup")
+        print("-" * 50)
+        print("Started Ethereum Setup")
+        print("1 - Create Wallet")
+        print("2 - Import Wallet")
+        print("0 - Exit")
+        if isInvalid:
+            print("Invalid Choice")
+        print("Please Enter Your Choice: ")
+        choice = input("> ")
+        if choice == "1":
+            create_wallet()
+            break
+        elif choice == "2":
+            import_wallet()
+        elif choice == "0":
+            exit()
+        else:
+            isInvalid = True
+            terminal.clear()
+            continue
