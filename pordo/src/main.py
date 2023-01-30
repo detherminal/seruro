@@ -5,7 +5,7 @@ def getTotalBalance(isConnected):
     if (isConnected == False):
         return "Disconnected"
     else:
-        x 
+        return 0
 
 def getChoice(isConnected, isInvalid):
     terminal.clear()
@@ -55,7 +55,7 @@ def main():
         choice = getChoice(isConnected, isInvalid)
         if (choice == 1):
             isInvalid == False
-            connect.connectToPico()
+            isConnected = connect.connectToPico()
         elif (choice == 2):
             isInvalid == False
             showAllWalletsAndBalances()

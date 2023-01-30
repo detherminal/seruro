@@ -1,0 +1,9 @@
+{
+    "coins": {
+        "eth": {
+            "number": 1,
+            "name": "Ethereum",
+            "symbol": "ETH"
+        }
+    }
+}
