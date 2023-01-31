@@ -1,10 +1,11 @@
 import terminal
 from web3 import Web3
+import encrypt
+import save
 
 def create_wallet():
     terminal.clear()
-    nodeURL = "https://cloudflare-eth.com/"
-    web3 = Web3(Web3.HTTPProvider(nodeURL))
+    web3 = Web3(Web3.HTTPProvider("https://cloudflare-eth.com/"))
     print("Create Wallet")
     print("-" * 50)
     print("Creating Wallet...")
@@ -12,15 +13,19 @@ def create_wallet():
     print("Wallet Created")
     print("CAUTION: Do not lose your private key or you will lose access to your wallet!")
     print("Private Key: " + str(private_key))
-    print("Public Address: " + web3.eth.account.from_key(private_key).address)
+    public_adress = web3.eth.account.from_key(private_key).address
+    print("Public Address: " + str(public_adress))
     input("Press Enter to continue...")
     print("-" * 50)
     print("Please Enter Password To Encrypt Private Key: ")
     print("CAUTION: This password will be used to encrypt your private key and will be asked everytime you need to make a transaction, do not lose your password or you will lose access to your wallet!")
     password = input("> ")
     print("Encrypting Private Key...")
-    
-
+    encrypted_private_key = encrypt.AESEncrypt(password, private_key)
+    print("Private Key Encrypted")
+    private_key = "000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000" # Clear Private Key From Memory
+    save.saveToPico(encrypted_private_key, public_adress, "eth")
+    print("Private Key Saved To Pico")
 
 def import_wallet():
     terminal.clear()

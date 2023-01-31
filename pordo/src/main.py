@@ -1,5 +1,7 @@
 import terminal
 import connect
+import show
+import wallets
 
 def getTotalBalance(isConnected):
     if (isConnected == False):
@@ -7,7 +9,7 @@ def getTotalBalance(isConnected):
     else:
         return 0
 
-def getChoice(isConnected, isInvalid):
+def getChoice(isConnected, isInvalid, isConnectedWarning):
     terminal.clear()
     while True:
         pordo = """
@@ -29,10 +31,15 @@ def getChoice(isConnected, isInvalid):
         print("Choose An Option (Enter The Number Of Option):")
         print("1 - Connect To Pico")
         print("2 - Show All Wallets And Balances")
-        print("3 - Refresh Balance")
+        print("3 - Add Or Remove Wallets")
+        print("4 - Refresh Balance")
+        print("5 - Send Coins")
+        print("6 - Receive Coins")
         print("0 - Exit")
         if (isInvalid):
-            print("Invalid Option")
+            print("Invalid Option!")
+        elif (isConnectedWarning):
+            print("Pico Not Connected!")
         option = input("> ")
         try:
             option = int(option)
@@ -43,24 +50,36 @@ def getChoice(isConnected, isInvalid):
             continue
     return option
 
-def showAllWalletsAndBalances():
-    print("Showing All Wallets And Balances...")
-    input("Press Enter To Return Main Menu...")
-
 def main():
     terminal.clear() 
     isConnected = False
     isInvalid = False
+    isConnectedWarning = False
     while True:
-        choice = getChoice(isConnected, isInvalid)
+        choice = getChoice(isConnected, isInvalid, isConnectedWarning)
         if (choice == 1):
             isInvalid == False
             isConnected = connect.connectToPico()
         elif (choice == 2):
-            isInvalid == False
-            showAllWalletsAndBalances()
+            if (isConnected == False):
+                isConnectedWarning = True
+                continue
+            else:
+                isInvalid == False
+                show.showAllWalletsAndBalances()
         elif (choice == 3):
-            isInvalid == False
+            if (isConnected == False):
+                isConnectedWarning = True
+                continue
+            else:
+                isInvalid == False
+                wallets.addOrRemoveWalletMenu()
+        elif (choice == 4):
+            if (isConnected == False):
+                isConnectedWarning = True
+                continue
+            else:
+                isInvalid == False
             continue
         elif (choice == 0):
             print("Exiting...")

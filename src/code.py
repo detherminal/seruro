@@ -1,7 +1,7 @@
 import board
-import microcontroller
 import time
 import digitalio
+import os
 
 def turnLedOnAndOff(turn):
     passedTurns = 0
@@ -21,7 +21,6 @@ def main():
             # If the config file exists, then the Pico is configured.
             turnLedOnAndOff(1)
     except:
-        # If the config file does not exist, then the Pico is not configured.
-        turnLedOnAndOff(1)
-    
+        turnLedOnAndOff(2)
+            
 main()
