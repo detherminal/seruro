@@ -20,9 +20,9 @@ This script will copy the files to the Pico.
 
 5 - If you use Windows, run the deploy.bat (Coming Soon) file by double clicking it.
 
-6 - Pico is now ready to use. You can use the Pico with the Pordo. [Using Pordo With The Pico](#using-pordo-with-the-pico)
+6 - Pico is now ready to use. You can use the Pico with the Pordo. [Using Pico With The Porod](#using-pico-with-the-pordo)
 
-## Using Pordo With The Pico:
+## Using Pico With The Pordo:
 
 1 - Clone the repository by entering command:
 ``` 
