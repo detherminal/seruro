@@ -2,6 +2,10 @@ import terminal
 import json
 import os
 
+# Copyright (c) seruro
+# Author: detherminal
+# This file is part of pordo, and is released under the "MIT License Agreement". Please see the LICENSE file that should have been included as part of this package.
+
 def showAllWalletsAndBalances():
     isInvalid = False
     terminal.clear()

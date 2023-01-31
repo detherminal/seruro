@@ -3,6 +3,9 @@ import os
 from binascii import hexlify, unhexlify
 from cryptography.hazmat.primitives.ciphers.aead import AESGCM
 
+# Copyright (c) seruro
+# Author: detherminal
+# This file is part of pordo, and is released under the "MIT License Agreement". Please see the LICENSE file that should have been included as part of this package.
 
 def deriveKey(passphrase: str, salt: bytes=None):
     if salt is None:

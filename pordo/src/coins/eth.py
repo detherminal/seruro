@@ -3,6 +3,10 @@ from web3 import Web3
 import encrypt
 import save
 
+# Copyright (c) seruro
+# Author: detherminal
+# This file is part of pordo, and is released under the "MIT License Agreement". Please see the LICENSE file that should have been included as part of this package.
+
 def create_wallet():
     terminal.clear()
     web3 = Web3(Web3.HTTPProvider("https://cloudflare-eth.com/"))
@@ -30,17 +34,28 @@ def create_wallet():
 def import_wallet():
     terminal.clear()
     print("Import Wallet")
-    print("-" * 50)
-    print("Importing Wallet...")
-
+    print("-" * "50")
+    print("CAUTION: Do not lose your private key or you will lose access to your wallet!")
+    print("Please Enter Your Private Key: ")
+    private_key = input("> ")
+    public_adress = Web3(Web3.HTTPProvider("https://cloudflare-eth.com/")).eth.account.from_key(private_key).address
+    print("Public Address: " + str(public_adress))
+    print("Please Enter Password To Encrypt Private Key: ")
+    print("CAUTION: This password will be used to encrypt your private key and will be asked everytime you need to make a transaction, do not lose your password or you will lose access to your wallet!")
+    password = input("> ")
+    print("Encrypting Private Key...")
+    encrypted_private_key = encrypt.AESEncrypt(password, private_key)
+    print("Private Key Encrypted")
+    private_key = "000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000" # Clear Private Key From Memory
+    save.saveToPico(encrypted_private_key, public_adress, "eth")
+    print("Private Key Saved To Pico")
 
 def setup():
     isInvalid = False
     terminal.clear() 
     while True:
-        print("Ethereum Setup")
+        print("Ethereum Wallet Setup")
         print("-" * 50)
-        print("Started Ethereum Setup")
         print("1 - Create Wallet")
         print("2 - Import Wallet")
         print("0 - Exit")
