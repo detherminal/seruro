@@ -7,3 +7,7 @@ import os
 def clear():
     # WARNING: USED SO MUCH, BE CAREFUL WHEN CHANGING
     os.system('cls' if os.name == 'nt' else 'clear')
+
+def getPicoPath():
+    if (os.name != "nt"):
+        return "/run/media/" + os.getlogin() + "/CIRCUITPY/"

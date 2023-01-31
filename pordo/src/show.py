@@ -1,6 +1,7 @@
 import terminal
 import json
 import os
+import importlib
 
 # Copyright (c) seruro
 # Author: detherminal
@@ -9,25 +10,36 @@ import os
 def showAllWalletsAndBalances():
     isInvalid = False
     terminal.clear()
-    user = os.getlogin()
     while True:
         terminal.clear()
         print("Show All Wallets And Balances")
         print("-" * 50)
-        dir = os.listdir("/run/media/" + user + "/CIRCUITPY/wallets")
+        print("Loading...")
+        dir = os.listdir(terminal.getPicoPath() + "wallets")
+        output = []
         if (len(dir) == 0):
+            terminal.clear()
+            print("Show All Wallets And Balances")
+            print("-" * 50)
             print("No Wallets Found")
         else:
             count = 0
             for file in dir:
                 count += 1
-                with open("/run/media/" + user + "/CIRCUITPY/wallets/" + file, "r") as file:
+                with open(terminal.getPicoPath() + "wallets/" + file, "r") as file:
                     wallet = json.loads(file.read())
                     name = str(wallet["name"])
                     public_adress = wallet["public_adress"]
-                    balance = 0
-                    print(str(count) + " - " + name + " - " + public_adress + " - " + str(balance) + "$")
-                    print("-" * 50)
+                    module = importlib.import_module("coins." + name.lower())
+                    balance = module.getBalance(public_adress)
+                    currency = wallet["currency"]
+                    output.append(str(count) + " - " + name + " - " + public_adress + " - " + str(balance) + " " + currency)
+            terminal.clear()
+            print("Show All Wallets And Balances")
+            print("-" * 50)
+            for line in output:
+                print(line)
+        print("-" * 50)
         print("Choose An Option (Enter The Number Of Option):")
         print("0 - Back")
         if (isInvalid):

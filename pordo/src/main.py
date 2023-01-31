@@ -2,16 +2,11 @@ import terminal
 import connect
 import show
 import wallets
+import transfer
 
 # Copyright (c) seruro
 # Author: detherminal
 # This file is part of pordo, and is released under the "MIT License Agreement". Please see the LICENSE file that should have been included as part of this package.
-
-def getTotalBalance(isConnected):
-    if (isConnected == False):
-        return "Disconnected"
-    else:
-        return 0
 
 def getChoice(isConnected, isInvalid, isConnectedWarning):
     terminal.clear()
@@ -30,15 +25,13 @@ def getChoice(isConnected, isInvalid, isConnectedWarning):
             print("Connection Status: Connected")
         else:
             print("Connection Status: Disconnected")
-        print("Total Balance In USD: " + str(getTotalBalance(isConnected)))
         print("-" * 50)
         print("Choose An Option (Enter The Number Of Option):")
         print("1 - Connect To Pico")
         print("2 - Show All Wallets And Balances")
         print("3 - Add Or Remove Wallets")
-        print("4 - Refresh Balance")
-        print("5 - Send Coins")
-        print("6 - Receive Coins")
+        print("4 - Send Coins")
+        print("5 - Receive Coins")
         print("0 - Exit")
         if (isInvalid):
             print("Invalid Option!")
@@ -67,23 +60,40 @@ def main():
         elif (choice == 2):
             if (isConnected == False):
                 isConnectedWarning = True
+                isInvalid == False
                 continue
             else:
+                isConnectedWarning = False
                 isInvalid == False
                 show.showAllWalletsAndBalances()
         elif (choice == 3):
             if (isConnected == False):
                 isConnectedWarning = True
+                isInvalid == False
                 continue
             else:
+                isConnectedWarning = False
                 isInvalid == False
                 wallets.addOrRemoveWalletMenu()
         elif (choice == 4):
             if (isConnected == False):
                 isConnectedWarning = True
+                isInvalid == False
                 continue
             else:
+                isConnectedWarning = False
                 isInvalid == False
+                transfer.sendCoins()
+            continue
+        elif (choice == 5):
+            if (isConnected == False):
+                isConnectedWarning = True
+                isInvalid == False
+                continue
+            else:
+                isConnectedWarning = False
+                isInvalid == False
+                transfer.receiveCoins()
             continue
         elif (choice == 0):
             print("Exiting...")

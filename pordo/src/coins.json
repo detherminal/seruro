@@ -3,7 +3,8 @@
         "eth": {
             "number": 1,
             "name": "Ethereum",
-            "symbol": "ETH"
+            "symbol": "eth",
+            "currency": "Ether"
         }
     }
 }

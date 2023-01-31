@@ -1,5 +1,4 @@
 import terminal
-import os
 import setup
 import json
 
@@ -14,8 +13,7 @@ def connectToPico():
     print("-" * 50)
     print("Connecting To Pico...")
     try:
-        user = os.getlogin()
-        with open("/run/media/" + user + "/CIRCUITPY/code.py", "r"):
+        with open(terminal.getPicoPath() + "code.py", "r"):
             isConnected = True
             print("Pico Found")
     except:
@@ -23,7 +21,7 @@ def connectToPico():
         print("Pico Not Found")
     if (isConnected):
         try:
-            with open("/run/media/" + user + "/CIRCUITPY/config.json", "r") as config:
+            with open(terminal.getPicoPath() + "config.json", "r") as config:
                 print("Config File Found")
                 config = json.load(config)
                 if (config["isSetup"] == False):
@@ -38,5 +36,6 @@ def connectToPico():
             print("Starting Setup...")
             input("Press Enter To Continue...")
             setup.setup()
+    print("-" * 50)
     input("Press Enter To Return Main Menu...")
     return isConnected
