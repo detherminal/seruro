@@ -18,4 +18,20 @@ $ ./deploy.sh
 ```
 This script will copy the files to the Pico. 
 
-5  - If you use Windows, run the deploy.bat (Coming Soon) file by double clicking it.
+5 - If you use Windows, run the deploy.bat (Coming Soon) file by double clicking it.
+
+6 - Pico is now ready to use. You can use the Pico with the Pordo. [Using Pordo With The Pico](#using-pordo-with-the-pico)
+
+## Using Pordo With The Pico:
+
+1 - Clone the repository by entering command:
+``` 
+$ git clone https://github.com/detherminal/seruro.git
+```
+
+2 - Change directory to Pordo and run the main file:
+```
+$ python3 main.py
+```
+
+3 - Follow the instructions on the screen.
