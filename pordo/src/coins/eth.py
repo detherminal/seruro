@@ -2,6 +2,7 @@ import terminal
 from web3 import Web3
 import encrypt
 import save
+import json
 
 # Copyright (c) seruro
 # Author: detherminal
@@ -80,3 +81,21 @@ def setup():
             isInvalid = True
             terminal.clear()
             continue
+
+def sendCoins(public_adress, recipient, amount, password):
+    web3 = Web3(Web3.HTTPProvider("https://cloudflare-eth.com/"))
+    with open(terminal.getPicoPath() + "wallets/eth.keys", "r") as file:
+        file = json.load(file)
+        encrypted_private_key = file["encrypted_private_key"]
+        private_key = encrypt.AESDecrypt(password, encrypted_private_key)
+        nonce = web3.eth.getTransactionCount(public_adress)
+        tx = {
+            "nonce": nonce,
+            "to": recipient,
+            "value": web3.toWei(amount, "ether"),
+            'gas': 2000000,
+            'gasPrice': web3.toWei('50', 'gwei')
+        }
+        signed_tx = web3.eth.account.sign_transaction(tx, private_key)
+        web3.eth.sendRawTransaction(signed_tx.rawTransaction)
+        print("Transaction Sent")
