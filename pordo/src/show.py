@@ -1,6 +1,7 @@
 import terminal
 import json
 import os
+import subprocess
 import importlib
 
 # Copyright (c) seruro
@@ -15,30 +16,37 @@ def showAllWalletsAndBalances():
         print("Show All Wallets And Balances")
         print("-" * 50)
         print("Loading...")
-        dir = os.listdir(terminal.getPicoPath() + "wallets")
-        output = []
-        if (len(dir) == 0):
+        output = subprocess.check_output("sudo rshell --quiet ls -l /seruro/wallets", shell=True).decode("utf-8").strip().split("\n")
+        outputs = []
+        wallets_array = []
+        for out in output:
+            out = out.strip().split(" ")
+            outputs.append(out)
+        try:
+            count = 0
+            for out in outputs:
+                count += 1
+                file_output = subprocess.check_output("sudo rshell --quiet cat /seruro/wallets/" + out[5], shell=True).decode("utf-8").strip()
+                wallet = json.loads(file_output)
+                name = str(wallet["name"])
+                public_adress = wallet["public_adress"]
+                module = importlib.import_module("coins." + name.lower())
+                balance = module.getBalance(public_adress)
+                currency = wallet["currency"]
+                wallets_array.append([count, name, public_adress, balance, currency])
+        except:
             terminal.clear()
             print("Show All Wallets And Balances")
             print("-" * 50)
             print("No Wallets Found")
-        else:
-            count = 0
-            for file in dir:
-                count += 1
-                with open(terminal.getPicoPath() + "wallets/" + file, "r") as file:
-                    wallet = json.loads(file.read())
-                    name = str(wallet["name"])
-                    public_adress = wallet["public_adress"]
-                    module = importlib.import_module("coins." + name.lower())
-                    balance = module.getBalance(public_adress)
-                    currency = wallet["currency"]
-                    output.append(str(count) + " - " + name + " - " + public_adress + " - " + str(balance) + " " + currency)
-            terminal.clear()
-            print("Show All Wallets And Balances")
             print("-" * 50)
-            for line in output:
-                print(line)
+            input("Press Enter To Return Main Menu...")
+            return
+        terminal.clear()
+        print("Show All Wallets And Balances")
+        print("-" * 50)
+        for line in wallets_array:
+            print(str(line[0]) + " - " + line[1] + " - " + line[2] + " - " + str(line[3]) + " " + line[4])
         print("-" * 50)
         print("Choose An Option (Enter The Number Of Option):")
         print("0 - Back")

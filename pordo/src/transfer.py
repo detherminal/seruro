@@ -3,6 +3,7 @@ import show
 import json
 import os
 import importlib
+import subprocess
 
 # Copyright (c) seruro
 # Author: detherminal
@@ -10,87 +11,63 @@ import importlib
 
 def sendCoins():
     isInvalid = False
+    terminal.clear()
     while True:
         terminal.clear()
         print("Send Coins")
         print("-" * 50)
-        print("Please Choose A Wallet To Send Coins From:")
-        print("Loading...")
-        dir = os.listdir(terminal.getPicoPath() + "wallets")
-        output = []
-        if (len(dir) == 0):
-            terminal.clear()
-            print("Show All Wallets And Balances")
-            print("-" * 50)
-            print("No Wallets Found")
-        else:
+        print("Choose A Wallet (Enter The Number Of Option): ")
+        output = subprocess.check_output("sudo rshell --quiet ls -l /seruro/wallets", shell=True).decode("utf-8").strip().split("\n")
+        outputs = []
+        wallets_array = []
+        for out in output:
+            out = out.strip().split(" ")
+            outputs.append(out)
+        try:
             count = 0
-            for file in dir:
+            for out in outputs:
                 count += 1
-                with open(terminal.getPicoPath() + "wallets/" + file, "r") as file:
-                    wallet = json.loads(file.read())
-                    name = str(wallet["name"])
-                    public_adress = wallet["public_adress"]
-                    module = importlib.import_module("coins." + name.lower())
-                    balance = module.getBalance(public_adress)
-                    currency = wallet["currency"]
-                    output.append(str(count) + " - " + name + " - " + public_adress + " - " + str(balance) + " " + currency)
-            terminal.clear()
-            print("Show All Wallets And Balances")
-            print("-" * 50)
-            for line in output:
-                print(line)
-        print("-" * 50)
-        print("Choose An Option (Enter The Number Of Option):")
-        print("0 - Back")
-        if (isInvalid):
-            print("Invalid Option")
-        option = input("> ")
-        if (option == "0"):
-            break
-        else:
-            try:
-                option = int(option)
-                if (option > len(dir)):
+                file_output = subprocess.check_output("sudo rshell --quiet cat /seruro/wallets/" + out[5], shell=True).decode("utf-8").strip()
+                wallet = json.loads(file_output)
+                name = str(wallet["name"])
+                public_adress = wallet["public_adress"]
+                module = importlib.import_module("coins." + name.lower())
+                balance = module.getBalance(public_adress)
+                currency = wallet["currency"]
+                wallets_array.append([count, name, public_adress, balance, currency, out[5]])
+            for wallet in wallets_array:
+                print(str(wallet[0]) + " - " + wallet[1] + " - " + wallet[2] + " - " + str(wallet[3]) + " " + wallet[4])
+            print("-"  * 50)
+            print("0 - Exit")
+            if (isInvalid):
+                print("Invalid Option")
+            answer = input("> ")
+            if (answer == "0"):
+                break
+            else:
+                try:
+                    answer = int(answer)
+                    for wallet in wallets_array:
+                        if (answer == int(wallet[0])):
+                            output = subprocess.check_output("sudo rshell --quiet cat /seruro/wallets/" + wallet[1].lower() + ".keys", shell=True)
+                            wallet = json.loads(output)
+                            public_adress = wallet["public_adress"]
+                            password = input("Enter Password: ")
+                            recipient = input("Enter Recipient Adress: ")
+                            amount = input("Enter Amount (e.g. 0.1): ")
+                            module = importlib.import_module("coins." + wallet[1].lower())
+                            module.sendCoins(public_adress, recipient, amount, password)
+                            break
+                        else:
+                            continue
+                except:
                     isInvalid = True
-                    terminal.clear()
-                    continue
-                else:
-                    count = 0
-                    for file in dir:
-                        count += 1
-                        if (count == option):
-                            with open(terminal.getPicoPath() + "wallets/" + file, "r") as file:
-                                wallet = json.loads(file.read())
-                                name = str(wallet["name"])
-                                public_adress = wallet["public_adress"]
-                                module = importlib.import_module("coins." + name.lower())
-                                balance = module.getBalance(public_adress)
-                                currency = wallet["currency"]
-                                terminal.clear()
-                                print("Send Coins")
-                                print("-" * 50)
-                                print("Wallet: " + name)
-                                print("Public Adress: " + public_adress)
-                                print("Balance: " + str(balance) + " " + currency)
-                                print("-" * 50)
-                                print("Please Enter The Public Adress Of The Recipient:")
-                                recipient = input("> ")
-                                print("-" * 50)
-                                print("Please Enter The Amount Of Coins To Send In Currency (ex: 0.1): ")
-                                amount = input("> ")
-                                print("-" * 50)
-                                print("Please Enter Your Password: ")
-                                password = input("> ")
-                                print("-" * 50)
-                                print("Sending...")
-                                module.sendCoins(public_adress, recipient, amount, password)
-                                print("Sent!")
-                                input("Press Enter To Continue...")
-                                break
-            except:
-                isInvalid = True
-                continue
+                    input("Press Enter To Continue...")
+        except:
+            print("No Wallets Found")
+            print("-" * 50)
+            input("Press Enter To Continue...")
+            break
 
 
 def receiveCoins():

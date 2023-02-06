@@ -12,7 +12,4 @@ def setup():
     print("-" * 50)
     print("Configuring Pico...")
     config.initialConfig()
-    print("Pico Configured")
-    input("Press Enter To Continue Into Adding Wallet...")
-    wallets.addWallet()
 

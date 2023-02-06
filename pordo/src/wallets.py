@@ -2,6 +2,7 @@ import terminal
 import importlib
 import os
 import json
+import subprocess
 
 # Copyright (c) seruro
 # Author: detherminal
@@ -55,7 +56,7 @@ def addWallet():
             try:
                 answer = int(answer)
                 with open("coins.json", "r") as coins:
-                    coins = json.load(coins)
+                    blockchains = json.load(coins)
                     coins = blockchains["coins"]
                     for coin in coins:
                         if (answer == coins[coin]["number"]):
@@ -65,7 +66,7 @@ def addWallet():
                             break
                         else:
                             continue
-            except:
+            except(KeyError):
                 isInvalid = True
         if (isAdded):
             break
@@ -78,76 +79,53 @@ def removeWallet():
     isInvalid = False
     terminal.clear()
     while True:
+        terminal.clear()
         print("Remove Wallet")
         print("-" * 50)
-        dir = os.listdir(terminal.getPicoPath() + "wallets")
-        if (len(dir) == 0):
-            print("No Wallets Found")
-        else:
+        print("Choose A Wallet (Enter The Number Of Option): ")
+        output = subprocess.check_output("sudo rshell --quiet ls -l /seruro/wallets", shell=True).decode("utf-8").strip().split("\n")
+        outputs = []
+        wallets_array = []
+        for out in output:
+            out = out.strip().split(" ")
+            outputs.append(out)
+        try:
             count = 0
-            output = []
-            for file in dir:
+            for out in outputs:
                 count += 1
-                with open(terminal.getPicoPath() + "wallets/" + file, "r") as file:
-                    wallet = json.loads(file.read())
-                    name = str(wallet["name"])
-                    public_adress = wallet["public_adress"]
-                    module = importlib.import_module("coins." + name.lower())
-                    balance = module.getBalance(public_adress)
-                    currency = wallet["currency"]
-                    output.append(str(count) + " - " + name + " - " + public_adress + " - " + str(balance) + " " + currency)
-            for line in output:
-                print(line)
-        print("-" * 50)
-        print("Choose An Option (Enter The Number Of Wallet):")
-        print("0 - Back")
-        if (isInvalid):
-            print("Invalid Option")
-        option = input("> ")
-        if (option == "0"):
-            break
-        else:
-            try:
-                option = int(option)
-                if (option > len(dir)):
-                    isInvalid = True
-                    terminal.clear()
-                    continue
-                else:
-                    count = 0
-                    for file in dir:
-                        count += 1
-                        if (count == option):
-                            print("-" * 50)
-                            print("Are You Sure You Want To Remove This Wallet? (Y/N):")
-                            with open(terminal.getPicoPath() + "wallets/" + file, "r") as file:
-                                wallet = json.loads(file.read())
-                                name = str(wallet["name"])
-                                public_adress = wallet["public_adress"]
-                                module = importlib.import_module("coins." + name.lower())
-                                balance = module.getBalance(public_adress)
-                                currency = wallet["currency"]
-                            print("Wallet: " + name + " - " + public_adress + " - " + str(balance) + " " + currency)
-                            answer = input("> ")
-                            answer = answer.lower()
-                            if (answer == "y" or answer == "yes"):
-                                os.remove(terminal.getPicoPath() + "wallets/" + name + ".keys")
-                                print("-" * 50)
-                                print("Wallet Removed")
-                                print("-" * 50)
-                                input("Press Enter To Continue")
-                                terminal.clear()
-                                break
-                            elif (answer == "n" or answer == "no"):
-                                print("Wallet Not Removed")
-                                continue
-                            else:
-                                isInvalid = True
-                                terminal.clear()
-                                continue
+                file_output = subprocess.check_output("sudo rshell --quiet cat /seruro/wallets/" + out[5], shell=True).decode("utf-8").strip()
+                wallet = json.loads(file_output)
+                name = str(wallet["name"])
+                public_adress = wallet["public_adress"]
+                module = importlib.import_module("coins." + name.lower())
+                balance = module.getBalance(public_adress)
+                currency = wallet["currency"]
+                wallets_array.append([count, name, public_adress, balance, currency, out[5]])
+            for wallet in wallets_array:
+                print(str(wallet[0]) + " - " + wallet[1] + " - " + wallet[2] + " - " + str(wallet[3]) + " " + wallet[4])
+            print("-"  * 50)
+            print("0 - Exit")
+            if (isInvalid):
+                print("Invalid Option")
+            answer = input("> ")
+            if (answer == "0"):
+                break
+            else:
+                try:
+                    answer = int(answer)
+                    for wallet in wallets_array:
+                        if (answer == int(wallet[0])):
+                            print("Removing Wallet...")
+                            command = "sudo rshell --quiet rm -r /seruro/wallets/" + str(wallet[5])
+                            os.system(command)
+                            break
                         else:
                             continue
-            except:
-                isInvalid = True
-                terminal.clear()
-                continue
+                except:
+                    isInvalid = True
+                    input("Press Enter To Continue...")
+        except:
+            print("No Wallets Found")
+            print("-" * 50)
+            input("Press Enter To Continue...")
+            break

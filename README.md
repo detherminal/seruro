@@ -19,6 +19,7 @@ You can use the [Pordo](pordo/README.md) application for interacting with the ha
 ## Installation And Docs
 
 - [Getting Started](docs/getting-started.md)
+- [Links](docs/links.md)
 
 ## Donate
 

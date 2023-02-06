@@ -1,6 +1,7 @@
 import terminal
 import setup
 import json
+import subprocess
 
 # Copyright (c) seruro
 # Author: detherminal
@@ -12,30 +13,34 @@ def connectToPico():
     print("Connection")
     print("-" * 50)
     print("Connecting To Pico...")
-    try:
-        with open(terminal.getPicoPath() + "code.py", "r"):
+    output = subprocess.check_output("sudo rshell --quiet ls -l /seruro/", shell=True).decode("utf-8").strip().split("\n")
+    outputs = []
+    for out in output:
+        out = out.strip().split(" ")
+        outputs.append(out)
+    for out in outputs:
+        if (out[5]) == "board.py":
             isConnected = True
             print("Pico Found")
-    except:
-        isConnected = False
-        print("Pico Not Found")
     if (isConnected):
         try:
-            with open(terminal.getPicoPath() + "config.json", "r") as config:
-                print("Config File Found")
-                config = json.load(config)
-                if (config["isSetup"] == False):
-                    print("Pico Not Setup")
-                    print("Starting Setup...")
-                    input("Press Enter To Continue...")
-                    setup.setup()
-                else:
-                    print("Successfully Connected To Pico")
+            output = subprocess.check_output("sudo rshell --quiet cat /seruro/config.json", shell=True).decode("utf-8").strip()
+            config = json.loads(output)
+            if (not config["isSetup"]):
+                print("Pico Not Setup")
+                print("Starting Setup...")
+                input("Press Enter To Continue...")
+                setup.setup()
+            else:
+                print("Successfully Connected To Pico")
         except:
             print("Config File Not Found")
             print("Starting Setup...")
             input("Press Enter To Continue...")
             setup.setup()
+    else:
+        print("Pico Not Found")
+        print("Please Connect Pico And Try Again")
     print("-" * 50)
     input("Press Enter To Return Main Menu...")
     return isConnected
