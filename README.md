@@ -6,7 +6,11 @@ Seruro is a software that is designed to turn [Raspberry Pi Pico](https://www.ra
 
 *Please star this project if you find it useful. It helps us to get more attention and contributors.*
 
-*Only Ethereum is supported for now.*
+## Supported Coins
+
+- Ethereum
+
+> You can find all the list in [coins.json](pordo/src/coins.json). If you want to add a new coin, please open an issue.
 
 ## Usage
 

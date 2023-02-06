@@ -1,6 +1,12 @@
-# Pordo
+```
+     ____               _       
+    |  _ \ ___  _ __ __| | ___  
+    | |_) / _ \| '__/ _` |/ _ \ 
+    |  __/ (_) | | | (_| | (_) |
+    |_|   \___/|_|  \__,_|\___/ 
 
-Pordo is the official terminal application for seruro. It is written with Python.
+```
+Pordo is the official terminal application for seruro. It is used for interacting with seruro and is written in Python.
 
 ## Installation
 
