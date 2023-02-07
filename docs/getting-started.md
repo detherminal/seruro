@@ -1,6 +1,6 @@
 # Getting Started
 
-For getting started you must have a fully functioning [Raspberry Pi Pico](https://www.raspberrypi.com/products/raspberry-pi-pico/) and a Male USB Type-A to Male Micro-USB Cable.
+For getting started you must have a fully functioning [Raspberry Pi Pico](https://www.raspberrypi.com/products/raspberry-pi-pico/) and a [Waveshare 1.3inch LCD Display](https://www.waveshare.com/pico-lcd-1.3.htm). If you only have a Pico, you can use the wallet as a view-only wallet (You can't sign transactions so you can't send any coins.)
 
 ## Preparing The Pico
 
