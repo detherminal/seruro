@@ -24,6 +24,11 @@ $ bash deploy.sh
 
 ## Using Pico With The Pordo:
 
+> DISCLAIMER: You need rshell to use the Pico with the Pordo. If you don't have rshell, you can install it by running the following command:
+```bash
+$ pip3 install rshell
+```
+
 1 - Clone the repository by entering command:
 ``` 
 $ git clone https://github.com/detherminal/seruro.git
