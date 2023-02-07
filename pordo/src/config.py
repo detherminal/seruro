@@ -17,7 +17,6 @@ def initialConfig():
         file.write(json_data)
         file.close()
     subprocess.run("sudo rshell --quiet cp ./config.json /seruro/config.json", shell=True)
-    subprocess.run("sudo rshell --quiet mkdir /seruro/wallets", shell=True)
     os.remove("config.json")
 
 def addCoin(coin):

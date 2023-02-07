@@ -4,6 +4,7 @@ import encrypt
 import save
 import json
 import subprocess
+import os
 
 # Copyright (c) seruro
 # Author: detherminal
@@ -97,7 +98,20 @@ def sendCoins(public_adress, recipient, amount, password):
         'gas': 2000000,
         'gasPrice': web3.toWei('50', 'gwei')
     }
-    signed_tx = web3.eth.account.sign_transaction(tx, private_key)
+    tx_json = json.dumps(tx)
+    with open("eth.tx", "w") as tx_file:
+        tx_file.write(tx_json)
+    os.system("sudo rshell --quiet cp eth.tx /seruro/eth.tx")
+    while True:
+        print("Please Confirm Transaction On Your Pico")
+        output = subprocess.check_output("sudo rshell --quiet ls -l /seruro/", shell=True)
+        if "signed_tx.json" in output:
+            break
+        else:
+            continue
+    os.system("sudo rshell --quiet cp /seruro/eth.signed_tx ./eth.signed_tx")
+    with open("eth.signed_tx", "r") as signed_tx_file:
+        signed_tx = signed_tx_file.read()
     web3.eth.sendRawTransaction(signed_tx.rawTransaction)
     print("Transaction Sent")
     input("Press Enter To Continue...")

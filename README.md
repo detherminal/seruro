@@ -1,8 +1,10 @@
 # Seruro Hardware Wallet
 
+![seruro-pic](assets/seruro-pic.jpg)
+
 > DISCLAIMER: This project is still in development and is only usable with Linux which is not ready for production use. Use at your own risk.
 
-Seruro is a software that is designed to turn [Raspberry Pi Pico](https://www.raspberrypi.com/products/raspberry-pi-pico/) into a [hardware wallet](https://crypto.com/university/what-is-a-hardware-wallet). It is written with [CircuitPython](https://circuitpython.org/). 
+Seruro is a software that is designed to turn [Raspberry Pi Pico](https://www.raspberrypi.com/products/raspberry-pi-pico/) into a [hardware wallet](https://crypto.com/university/what-is-a-hardware-wallet). It is written with [MicroPython](https://micropython.org/). 
 
 *Please star this project if you find it useful. It helps us to get more attention and contributors.*
 
