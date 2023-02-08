@@ -1,4 +1,5 @@
 import os
+import subprocess
 
 # Copyright (c) seruro
 # Author: detherminal
@@ -7,3 +8,6 @@ import os
 def clear():
     # WARNING: USED SO MUCH, BE CAREFUL WHEN CHANGING
     os.system('cls' if os.name == 'nt' else 'clear')
+
+def restartPico():
+    subprocess.run("sudo mpremote exec 'machine.reset()'", shell=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)

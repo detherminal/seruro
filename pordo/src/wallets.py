@@ -83,7 +83,7 @@ def removeWallet():
         print("Remove Wallet")
         print("-" * 50)
         print("Choose A Wallet (Enter The Number Of Option): ")
-        output = subprocess.check_output("sudo rshell --quiet ls -l /seruro/wallets", shell=True).decode("utf-8").strip().split("\n")
+        output = subprocess.check_output("sudo rshell --quiet ls -l /seruro/wallets/", shell=True).decode("utf-8").strip().split("\n")
         outputs = []
         wallets_array = []
         for out in output:
@@ -101,6 +101,7 @@ def removeWallet():
                 balance = module.getBalance(public_adress)
                 currency = wallet["currency"]
                 wallets_array.append([count, name, public_adress, balance, currency, out[5]])
+            terminal.restartPico()
             for wallet in wallets_array:
                 print(str(wallet[0]) + " - " + wallet[1] + " - " + wallet[2] + " - " + str(wallet[3]) + " " + wallet[4])
             print("-"  * 50)
@@ -118,9 +119,11 @@ def removeWallet():
                             print("Removing Wallet...")
                             command = "sudo rshell --quiet rm -r /seruro/wallets/" + str(wallet[5])
                             os.system(command)
+                            terminal.restartPico()
                             break
                         else:
                             continue
+                    break
                 except:
                     isInvalid = True
                     input("Press Enter To Continue...")

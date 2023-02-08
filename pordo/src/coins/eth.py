@@ -31,7 +31,7 @@ def create_wallet():
     encrypted_private_key = encrypt.AESEncrypt(password, private_key)
     print("Private Key Encrypted")
     private_key = "000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000" # Clear Private Key From Memory
-    save.saveToPico(encrypted_private_key, public_adress, "eth" , "Ether")
+    save.saveToPico(encrypted_private_key, public_adress, "eth" , "Ether", getBalance(public_adress))
     print("Private Key Saved To Pico")
 
 def import_wallet():
@@ -51,7 +51,7 @@ def import_wallet():
     encrypted_private_key = encrypt.AESEncrypt(password, private_key)
     print("Private Key Encrypted")
     private_key = "000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000" # Clear Private Key From Memory
-    save.saveToPico(encrypted_private_key, public_adress, "eth" , "Ether")
+    save.saveToPico(encrypted_private_key, public_adress, "eth" , "Ether", getBalance(public_adress))
     print("Private Key Saved To Pico")
 
 def getBalance(public_adress):

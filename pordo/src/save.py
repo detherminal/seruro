@@ -7,12 +7,13 @@ import subprocess
 # Author: detherminal
 # This file is part of pordo, and is released under the "MIT License Agreement". Please see the LICENSE file that should have been included as part of this package.
 
-def saveToPico(key, public_adress, name, currency):
+def saveToPico(key, public_adress, name, currency, balance):
     wallet = {
         "name": name.capitalize(),
         "encrypted_private_key": key,
         "public_adress": public_adress,
-        "currency": currency
+        "currency": currency,
+        "balance": balance
     }
     data = json.dumps(wallet)
     with open(name + ".keys", "w") as wallet:
@@ -21,4 +22,5 @@ def saveToPico(key, public_adress, name, currency):
     with open(name + ".keys", "w") as wallet:
         wallet.write("000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000") # This is to make sure that the key is not stored on the computer
     os.remove(name + ".keys")
+    terminal.restartPico()
     input("Press Enter To Continue...")

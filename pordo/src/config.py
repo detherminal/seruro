@@ -17,13 +17,5 @@ def initialConfig():
         file.write(json_data)
         file.close()
     subprocess.run("sudo rshell --quiet cp ./config.json /seruro/config.json", shell=True)
+    terminal.restartPico()
     os.remove("config.json")
-
-def addCoin(coin):
-    with open(terminal.getPicoPath() + "config.json", "r") as file:
-        config = json.load(file)
-        file.close()
-    config["coins"].append(coin)
-    with open(terminal.getPicoPath() + "config.json", "w") as file:
-        file.write(json.dumps(config))
-        file.close()
