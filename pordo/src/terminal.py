@@ -10,4 +10,5 @@ def clear():
     os.system('cls' if os.name == 'nt' else 'clear')
 
 def restartPico():
+    # THIS IS USED BECAUSE STDIN AND STDOUT STOPS THE CODE FROM RUNNING. WE USE THIS TO RESTART THE CODE AND PICO.
     subprocess.run("sudo mpremote exec 'machine.reset()'", shell=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)

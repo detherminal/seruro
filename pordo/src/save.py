@@ -2,6 +2,7 @@ import os
 import json
 import terminal
 import subprocess
+import simplejson as json
 
 # Copyright (c) seruro
 # Author: detherminal

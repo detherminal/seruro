@@ -2,6 +2,7 @@ import terminal
 import setup
 import json
 import subprocess
+import os
 
 # Copyright (c) seruro
 # Author: detherminal
@@ -14,7 +15,6 @@ def connectToPico():
     print("-" * 50)
     print("Connecting To Pico...")
     output = subprocess.check_output("sudo rshell --quiet ls -l /seruro/", shell=True).decode("utf-8").strip().split("\n")
-    terminal.restartPico()
     outputs = []
     for out in output:
         out = out.strip().split(" ")
@@ -26,7 +26,6 @@ def connectToPico():
     if (isConnected):
         try:
             output = subprocess.check_output("sudo rshell --quiet cat /seruro/config.json", shell=True).decode("utf-8").strip()
-            terminal.restartPico()
             config = json.loads(output)
             if (not config["isSetup"]):
                 print("Pico Not Setup")
@@ -35,6 +34,7 @@ def connectToPico():
                 setup.setup()
             else:
                 print("Successfully Connected To Pico")
+                terminal.restartPico()
         except:
             print("Config File Not Found")
             print("Starting Setup...")

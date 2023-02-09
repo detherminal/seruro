@@ -49,6 +49,7 @@ def getChoice(isConnected, isInvalid, isConnectedWarning):
 
 def main():
     terminal.clear() 
+    terminal.restartPico()
     isConnected = False
     isInvalid = False
     isConnectedWarning = False
